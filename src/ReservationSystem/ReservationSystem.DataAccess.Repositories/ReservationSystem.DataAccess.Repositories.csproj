@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ReservationStatus.Domain.Exceptions\ReservationStatus.Domain.Exceptions.csproj" />
+      <ProjectReference Include="..\ReservationSystem.DataAccess.Context\ReservationSystem.DataAccess.Context.csproj" />
+      <ProjectReference Include="..\ReservationSystem.Domain.Interfaces\ReservationSystem.Domain.Interfaces.csproj" />
+    </ItemGroup>
+
+</Project>

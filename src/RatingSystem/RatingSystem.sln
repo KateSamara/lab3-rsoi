@@ -1,0 +1,99 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatingSystem.Web.Api", "RatingSystem.Web.Api\RatingSystem.Web.Api.csproj", "{DF054F58-6267-48DA-B335-7C1173BB4B02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RatingSystem.Web", "RatingSystem.Web", "{8521C8BB-D42D-493D-8CB1-038C091D8A7D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RatingSystem.Domain", "RatingSystem.Domain", "{BC0DF140-8B87-4A9F-B6DA-5F12249BC0B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RatingSystem.Application", "RatingSystem.Application", "{91559296-32C8-40C1-B33A-23BE0DBF0ACD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RatingSystem.DataAccess", "RatingSystem.DataAccess", "{662377A3-38DF-4E17-837D-E7DA80C589A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatingSystem.DataAccess.Models", "RatingSystem.DataAccess.Models\RatingSystem.DataAccess.Models.csproj", "{57FD7498-C419-44C3-93BE-D40077D252D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatingSystem.DataAccess.Context", "RatingSystem.DataAccess.Context\RatingSystem.DataAccess.Context.csproj", "{695C3D45-F40A-40EF-BDB6-2AE7B686B00B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatingSystem.Application.Services", "RatingSystem.Application.Services\RatingSystem.Application.Services.csproj", "{2EE971E6-7DC8-404F-8CEF-0EE53A12AFF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatingSystem.DataAccess.Repositories", "RatingSystem.DataAccess.Repositories\RatingSystem.DataAccess.Repositories.csproj", "{598DABDA-7551-4241-B84C-4D3E5330F622}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatingSystem.Domain.Models", "RatingSystem.Domain.Models\RatingSystem.Domain.Models.csproj", "{C9774115-29B6-42C5-BB93-59D131812DC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatingSystem.Domain.Interfaces", "RatingSystem.Domain.Interfaces\RatingSystem.Domain.Interfaces.csproj", "{0869C61B-0852-4CB3-A460-9B8008AB2664}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatingSystem.Web.Dto", "RatingSystem.Web.Dto\RatingSystem.Web.Dto.csproj", "{CE6CE2F5-C754-4BC4-BC3B-52757BB92307}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatingSystem.Domain.Exceptions", "RatingSystem.Domain.Exceptions\RatingSystem.Domain.Exceptions.csproj", "{04C07E7C-6739-4453-82A7-C607E98A9304}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatingSystem.Application.Jobs", "RatingSystem.Application.Jobs\RatingSystem.Application.Jobs.csproj", "{BE9EF312-6313-4F52-89DB-A0657394DE61}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RatingSystem.Tests", "RatingSystem.Tests", "{816C6112-5A3B-48FD-95C5-64004B11CCFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatingSystem.Tests.UnitTests", "RatingSystem.Tests.UnitTests\RatingSystem.Tests.UnitTests.csproj", "{D2C0DACB-A114-4615-8E63-AEF7882C4A58}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF054F58-6267-48DA-B335-7C1173BB4B02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF054F58-6267-48DA-B335-7C1173BB4B02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF054F58-6267-48DA-B335-7C1173BB4B02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF054F58-6267-48DA-B335-7C1173BB4B02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57FD7498-C419-44C3-93BE-D40077D252D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57FD7498-C419-44C3-93BE-D40077D252D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57FD7498-C419-44C3-93BE-D40077D252D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57FD7498-C419-44C3-93BE-D40077D252D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{695C3D45-F40A-40EF-BDB6-2AE7B686B00B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{695C3D45-F40A-40EF-BDB6-2AE7B686B00B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{695C3D45-F40A-40EF-BDB6-2AE7B686B00B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{695C3D45-F40A-40EF-BDB6-2AE7B686B00B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EE971E6-7DC8-404F-8CEF-0EE53A12AFF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EE971E6-7DC8-404F-8CEF-0EE53A12AFF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EE971E6-7DC8-404F-8CEF-0EE53A12AFF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EE971E6-7DC8-404F-8CEF-0EE53A12AFF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{598DABDA-7551-4241-B84C-4D3E5330F622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{598DABDA-7551-4241-B84C-4D3E5330F622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{598DABDA-7551-4241-B84C-4D3E5330F622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{598DABDA-7551-4241-B84C-4D3E5330F622}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9774115-29B6-42C5-BB93-59D131812DC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9774115-29B6-42C5-BB93-59D131812DC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9774115-29B6-42C5-BB93-59D131812DC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9774115-29B6-42C5-BB93-59D131812DC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0869C61B-0852-4CB3-A460-9B8008AB2664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0869C61B-0852-4CB3-A460-9B8008AB2664}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0869C61B-0852-4CB3-A460-9B8008AB2664}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0869C61B-0852-4CB3-A460-9B8008AB2664}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE6CE2F5-C754-4BC4-BC3B-52757BB92307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE6CE2F5-C754-4BC4-BC3B-52757BB92307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE6CE2F5-C754-4BC4-BC3B-52757BB92307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE6CE2F5-C754-4BC4-BC3B-52757BB92307}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04C07E7C-6739-4453-82A7-C607E98A9304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04C07E7C-6739-4453-82A7-C607E98A9304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04C07E7C-6739-4453-82A7-C607E98A9304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04C07E7C-6739-4453-82A7-C607E98A9304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE9EF312-6313-4F52-89DB-A0657394DE61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE9EF312-6313-4F52-89DB-A0657394DE61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE9EF312-6313-4F52-89DB-A0657394DE61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE9EF312-6313-4F52-89DB-A0657394DE61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2C0DACB-A114-4615-8E63-AEF7882C4A58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2C0DACB-A114-4615-8E63-AEF7882C4A58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2C0DACB-A114-4615-8E63-AEF7882C4A58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2C0DACB-A114-4615-8E63-AEF7882C4A58}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DF054F58-6267-48DA-B335-7C1173BB4B02} = {8521C8BB-D42D-493D-8CB1-038C091D8A7D}
+		{57FD7498-C419-44C3-93BE-D40077D252D6} = {662377A3-38DF-4E17-837D-E7DA80C589A3}
+		{695C3D45-F40A-40EF-BDB6-2AE7B686B00B} = {662377A3-38DF-4E17-837D-E7DA80C589A3}
+		{2EE971E6-7DC8-404F-8CEF-0EE53A12AFF2} = {91559296-32C8-40C1-B33A-23BE0DBF0ACD}
+		{598DABDA-7551-4241-B84C-4D3E5330F622} = {662377A3-38DF-4E17-837D-E7DA80C589A3}
+		{C9774115-29B6-42C5-BB93-59D131812DC4} = {BC0DF140-8B87-4A9F-B6DA-5F12249BC0B8}
+		{0869C61B-0852-4CB3-A460-9B8008AB2664} = {BC0DF140-8B87-4A9F-B6DA-5F12249BC0B8}
+		{CE6CE2F5-C754-4BC4-BC3B-52757BB92307} = {8521C8BB-D42D-493D-8CB1-038C091D8A7D}
+		{04C07E7C-6739-4453-82A7-C607E98A9304} = {BC0DF140-8B87-4A9F-B6DA-5F12249BC0B8}
+		{BE9EF312-6313-4F52-89DB-A0657394DE61} = {91559296-32C8-40C1-B33A-23BE0DBF0ACD}
+		{D2C0DACB-A114-4615-8E63-AEF7882C4A58} = {816C6112-5A3B-48FD-95C5-64004B11CCFE}
+	EndGlobalSection
+EndGlobal

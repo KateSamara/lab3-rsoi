@@ -8,6 +8,8 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+db-data
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
@@ -356,7 +358,7 @@ local.properties
 *.pdb
 
 # Kernel Module Compile Results
-*.mod*
+#*.mod*
 *.cmd
 .tmp_versions/
 modules.order

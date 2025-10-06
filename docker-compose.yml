@@ -1,7 +1,7 @@
 version: "3"
 services:
   postgres:
-    image: library/postgres:13
+    image: postgres:13
     container_name: postgres
     restart: on-failure
     environment:
@@ -9,12 +9,83 @@ services:
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: postgres
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - ./db-data:/var/lib/postgresql/data
       - ./postgres/:/docker-entrypoint-initdb.d/
+      - ./postgres/scripts/:/docker-entrypoint-initdb.d/scripts/
     ports:
-      - "5432:5432"
+      - "5436:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ratings"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    networks:
+      - test-network
 
-# TODO добавить сервисы
+  library-system:
+    build:
+      context: .
+      dockerfile: library.dockerfile
+    container_name: library-system
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DOCKER_CONNECTION_STRING=Host=postgres;Port=5432;Database=libraries;Username=program;Password=test
+      - ASPNETCORE_HTTP_PORTS=8060
+    networks:
+      - test-network
+    ports:
+      - "8060:8060"
 
-volumes:
-  db-data:
+  reservation-system:
+    build:
+      context: .
+      dockerfile: reservation.dockerfile
+    container_name: reservation-system
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DOCKER_CONNECTION_STRING=Host=postgres;Port=5432;Database=reservations;Username=program;Password=test
+      - ASPNETCORE_HTTP_PORTS=8070
+    networks:
+      - test-network
+    ports:
+      - "8070:8070"
+
+  rating-system:
+    build:
+      context: .
+      dockerfile: rating.dockerfile
+    container_name: rating-system
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DOCKER_CONNECTION_STRING=Host=postgres;Port=5432;Database=ratings;Username=program;Password=test
+      - ASPNETCORE_HTTP_PORTS=8050
+    networks:
+      - test-network
+    ports:
+      - "8050:8050"
+
+  gateway-service:
+    build:
+      context: .
+      dockerfile: gateway.dockerfile
+    container_name: gateway-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_HTTP_PORTS=8080
+    networks:
+      - test-network
+    ports:
+      - "8080:8080"
+
+networks:
+  test-network:
+    driver: bridge
