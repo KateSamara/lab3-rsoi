@@ -1,9 +1,7 @@
-using System.Text.Json;
-using GatewayService.DataAccess.Gateways.Configuration;
-using GatewayService.Web.Dto;
+using GatewayService.Domain.Interfaces.Services;
+using GatewayService.Web.Dto.Converters;
 using GatewayService.Web.Dto.Ratings;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace GatewayService.Web.Api.Controllers;
 
@@ -11,11 +9,11 @@ namespace GatewayService.Web.Api.Controllers;
 [Route("/api/v1/rating")]
 public class RatingController : ControllerBase
 {
-    private readonly RatingSystemConfiguration _ratingSystemConfiguration;
-
-    public RatingController(IOptions<RatingSystemConfiguration> ratingSystemConfiguration)
+    private readonly IRatingService _ratingService;
+    
+    public RatingController(IRatingService ratingService)
     {
-        _ratingSystemConfiguration = ratingSystemConfiguration.Value;
+        _ratingService = ratingService ?? throw new ArgumentNullException(nameof(ratingService));
     }
 
     [HttpGet]
@@ -23,18 +21,8 @@ public class RatingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetRatingsByUsernameAsync([FromHeader(Name = "X-User-Name")] string username)
     {
-        using var client = new HttpClient();
-
-        using var request = new HttpRequestMessage(HttpMethod.Get,
-            $"{_ratingSystemConfiguration.IpAddress}/{_ratingSystemConfiguration.BaseUrl}");
-        request.Headers.Add(_ratingSystemConfiguration.UsernameHeader, username);
-
-        using var response = await client.SendAsync(request);
-        response.EnsureSuccessStatusCode();
-        var json = await response.Content.ReadAsStringAsync();
+        var rating = await _ratingService.GetRatingsByUsernameAsync(username);
         
-        var rating = JsonSerializer.Deserialize<RatingDto>(json);
-        
-        return Ok(rating);
+        return Ok(rating.ToDto());
     }
 }

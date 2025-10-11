@@ -20,8 +20,8 @@ public static class ReservationDtoConverter
             library: libraryDto,
             rating: ratingDto);
         
-        reservationFull.Book.Condition = null;
-        reservationFull.Book.AvailableCount = null;
+        //reservationFull.Book.Condition = null;
+        //reservationFull.Book.AvailableCount = null;
         
         return reservationFull;
     }

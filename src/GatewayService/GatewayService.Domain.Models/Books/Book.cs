@@ -10,7 +10,7 @@ public record Book
     
     public required string? Genre { get; init; }
     
-    public required string? Condition { get; init; }
+    public required string Condition { get; init; }
     
-    public required int? AvailableCount { get; init; }
+    public required int AvailableCount { get; init; }
 }

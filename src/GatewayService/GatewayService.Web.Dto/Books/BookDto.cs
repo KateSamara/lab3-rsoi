@@ -22,15 +22,13 @@ public class BookDto
     
     [JsonRequired]
     [JsonPropertyName("condition")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Condition { get; set; }
+    public string Condition { get; set; }
     
     [JsonRequired]
     [JsonPropertyName("availableCount")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? AvailableCount { get; set; }
+    public int AvailableCount { get; set; }
 
-    public BookDto(Guid bookUuid, string name, string? author, string? genre, string? condition, int? availableCount)
+    public BookDto(Guid bookUuid, string name, string? author, string? genre, string condition, int availableCount)
     {
         BookUuid = bookUuid;
         Name = name;

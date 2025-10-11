@@ -16,8 +16,12 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 builder.Services.AddScoped<ValidationFilterAttribute>();
+
 builder.Services.AddTransient<ILibraryGateway, LibraryGateway>();
+builder.Services.AddTransient<IRatingGateway, RatingGateway>();
+
 builder.Services.AddTransient<ILibraryService, LibraryService>();
+builder.Services.AddTransient<IRatingService, RatingService>();
 
 builder.Services.Configure<LibrarySystemConfiguration>(
     builder.Configuration.GetSection("LibrarySystemConfiguration"));
