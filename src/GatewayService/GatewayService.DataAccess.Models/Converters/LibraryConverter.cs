@@ -26,4 +26,14 @@ public static class LibraryConverter
             Items = libraryPagedDto.Items.ConvertAll(l => l.ToDomain())
         };
     }
+
+    public static LibraryBook ToDomain(this LibraryBookDto libraryBookDto)
+    {
+        return new LibraryBook
+        {
+            AvailableCount = libraryBookDto.AvailableCount,
+            Book = libraryBookDto.Book.ToDomain(),
+            Library = libraryBookDto.Library.ToDomain()
+        };
+    }
 }

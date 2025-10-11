@@ -19,9 +19,11 @@ builder.Services.AddScoped<ValidationFilterAttribute>();
 
 builder.Services.AddTransient<ILibraryGateway, LibraryGateway>();
 builder.Services.AddTransient<IRatingGateway, RatingGateway>();
+builder.Services.AddTransient<IReservationGateway, ReservationGateway>();
 
 builder.Services.AddTransient<ILibraryService, LibraryService>();
 builder.Services.AddTransient<IRatingService, RatingService>();
+builder.Services.AddTransient<IReservationService, ReservationService>();
 
 builder.Services.Configure<LibrarySystemConfiguration>(
     builder.Configuration.GetSection("LibrarySystemConfiguration"));

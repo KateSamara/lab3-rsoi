@@ -37,4 +37,24 @@ public class RatingGateway(IOptions<RatingSystemConfiguration> ratingSystemConfi
             throw new RatingGatewayException($"Failed to get rating by username = {username}", e);
         }
     }
+
+    public async Task UpdateRatingAsync(string username, int starDifference)
+    {
+        try
+        {
+            using var client = new HttpClient();
+            
+            using var request = new HttpRequestMessage(HttpMethod.Patch,
+                $"{_ratingSystemConfiguration.IpAddress}/{_ratingSystemConfiguration.BaseUrl}?starDifference={starDifference}");
+            request.Headers.Add(_ratingSystemConfiguration.UsernameHeader, username);
+
+            using var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Failed to update rating by username = {username}", e);
+            throw new RatingGatewayException($"Failed to update rating by username = {username}", e);
+        }
+    }
 }

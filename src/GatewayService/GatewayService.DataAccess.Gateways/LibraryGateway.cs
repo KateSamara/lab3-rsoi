@@ -66,4 +66,86 @@ public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemCo
             throw new LibraryGatewayException($"Failed to get books by library uid = {libraryUid}", e);
         }
     }
+
+    public async Task<LibraryBook> UpdateAvailableBooksCount(Guid bookUuid, Guid libraryUuid, bool isIncrease)
+    {
+        try
+        {
+            using var client = new HttpClient();
+            
+            using var request = new HttpRequestMessage(HttpMethod.Patch,
+                $"{_librarySystemConfiguration.IpAddress}/{_librarySystemConfiguration.BaseUrl}/" +
+                $"{libraryUuid}/{_librarySystemConfiguration.GetBooksSuffix}/{bookUuid}?isIncrease={isIncrease}");
+
+            using var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync();
+        
+            var libraryBook = JsonSerializer.Deserialize<LibraryBookDto>(json);
+        
+            return libraryBook!.ToDomain();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Failed to update books count with book uid = {bookUuid} and library uid = {libraryUuid}", e);
+            throw new LibraryGatewayException(
+                $"Failed to update books count with book uid = {bookUuid} and library uid = {libraryUuid}", e);
+        }
+    }
+
+    public async Task<List<Book>> GetBooksByIdsAsync(List<Guid> bookUuids)
+    {
+        try
+        {
+            using var client = new HttpClient();
+            
+            using var request = new HttpRequestMessage(HttpMethod.Get,
+                $"{_librarySystemConfiguration.IpAddress}/{_librarySystemConfiguration.BaseBookUrl}/{_librarySystemConfiguration.SearchByIdsSuffix}{BuildPartUrlWithIds(bookUuids)}");
+            using var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync();
+        
+            var books = JsonSerializer.Deserialize<List<BookDto>>(json);
+        
+            return books!.ConvertAll(b => b.ToDomain());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Failed to get books by ids = {bookUuids}", e);
+            throw new LibraryGatewayException($"Failed to get books by ids = {bookUuids}", e);
+        }
+    }
+
+    public async Task<List<Library>> GetLibrariesByIdsAsync(List<Guid> libraryUuids)
+    {
+        try
+        {
+            using var client = new HttpClient();
+            
+            using var request = new HttpRequestMessage(HttpMethod.Get,
+                $"{_librarySystemConfiguration.IpAddress}/{_librarySystemConfiguration.BaseUrl}/{_librarySystemConfiguration.SearchByIdsSuffix}{BuildPartUrlWithIds(libraryUuids)}");
+            using var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync();
+        
+            var libraries = JsonSerializer.Deserialize<List<LibraryDto>>(json);
+
+            return libraries!.ConvertAll(l => l.ToDomain());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Failed to get libraries by ids = {libraryUuids}", e);
+            throw new LibraryGatewayException($"Failed to get libraries by ids = {libraryUuids}", e);
+        }
+    }
+    
+    private string BuildPartUrlWithIds(List<Guid> ids)
+    {
+        var url = "?";
+        foreach (var id in ids)
+        {
+            url += $"ids={id}&";
+        }
+        return url;
+    }
 }

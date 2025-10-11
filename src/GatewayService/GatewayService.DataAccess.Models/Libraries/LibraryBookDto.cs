@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using GatewayService.Web.Dto.Books;
+using GatewayService.DataAccess.Models.Books;
 
-namespace GatewayService.Web.Dto.Libraries;
+namespace GatewayService.DataAccess.Models.Libraries;
 
 public class LibraryBookDto
 {

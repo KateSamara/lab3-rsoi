@@ -22,4 +22,12 @@ public static class BookDtoConverter
             totalItems: books.TotalItems,
             items: books.Items.ConvertAll(b => b.ToDto()));
     }
+    
+    public static BookShortDto ToDto(this BookShort book)
+    {
+        return new BookShortDto(bookUuid: book.BookUuid,
+            author: book.Author,
+            name: book.Name,
+            genre: book.Genre);
+    }
 }

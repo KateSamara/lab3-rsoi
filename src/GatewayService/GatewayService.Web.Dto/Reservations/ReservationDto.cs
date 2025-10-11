@@ -1,4 +1,7 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
+using GatewayService.Web.Dto.Books;
+using GatewayService.Web.Dto.Libraries;
+using GatewayService.Web.Dto.Ratings;
 
 namespace GatewayService.Web.Dto.Reservations;
 
@@ -7,14 +10,6 @@ public class ReservationDto
     [JsonRequired]
     [JsonPropertyName("reservationUid")]
     public Guid ReservationUuid { get; set; }
-    
-    [JsonRequired]
-    [JsonPropertyName("bookUid")]
-    public Guid BookUuid { get; set; }
-    
-    [JsonRequired]
-    [JsonPropertyName("libraryUid")]
-    public Guid LibraryUuid { get; set; }
     
     [JsonRequired]
     [JsonPropertyName("status")]
@@ -27,14 +22,27 @@ public class ReservationDto
     [JsonRequired]
     [JsonPropertyName("tillDate")]
     public DateOnly TillDate { get; set; }
+    
+    [JsonRequired]
+    [JsonPropertyName("book")]
+    public BookShortDto Book { get; set; }
+    
+    [JsonRequired]
+    [JsonPropertyName("library")]
+    public LibraryDto Library { get; set; }
+    
+    [JsonPropertyName("rating")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public RatingDto? Rating { get; set; }
 
-    public ReservationDto(Guid reservationUuid, Guid bookUuid, Guid libraryUuid, string status, DateOnly startDate, DateOnly tillDate)
+    public ReservationDto(Guid reservationUuid, string status, DateOnly startDate, DateOnly tillDate, BookShortDto book, LibraryDto library, RatingDto? rating)
     {
         ReservationUuid = reservationUuid;
-        BookUuid = bookUuid;
-        LibraryUuid = libraryUuid;
         Status = status;
         StartDate = startDate;
         TillDate = tillDate;
+        Book = book;
+        Library = library;
+        Rating = rating;
     }
 }
