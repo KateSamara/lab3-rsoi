@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\GatewayService.DataAccess.Models\GatewayService.DataAccess.Models.csproj" />
+      <ProjectReference Include="..\GatewayService.Domain.Exceptions\GatewayService.Domain.Exceptions.csproj" />
+      <ProjectReference Include="..\GatewayService.Domain.Interfaces\GatewayService.Domain.Interfaces.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+    </ItemGroup>
+
+</Project>

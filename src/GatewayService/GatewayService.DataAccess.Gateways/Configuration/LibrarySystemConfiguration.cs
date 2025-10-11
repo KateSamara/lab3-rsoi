@@ -1,4 +1,4 @@
-namespace GatewayService.Configuration;
+namespace GatewayService.DataAccess.Gateways.Configuration;
 
 public record LibrarySystemConfiguration
 {

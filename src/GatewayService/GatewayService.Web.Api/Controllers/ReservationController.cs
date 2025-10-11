@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text;
 using System.Text.Json;
-using GatewayService.Configuration;
+using GatewayService.DataAccess.Gateways.Configuration;
 using GatewayService.Web.Dto;
 using GatewayService.Web.Dto.Books;
 using GatewayService.Web.Dto.Converters;

@@ -1,5 +1,5 @@
 using System.Text.Json;
-using GatewayService.Configuration;
+using GatewayService.DataAccess.Gateways.Configuration;
 using GatewayService.Web.Dto;
 using GatewayService.Web.Dto.Ratings;
 using Microsoft.AspNetCore.Mvc;

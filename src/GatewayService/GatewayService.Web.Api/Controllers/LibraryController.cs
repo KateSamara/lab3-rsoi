@@ -1,7 +1,9 @@
 using System.Text.Json;
-using GatewayService.Configuration;
+using GatewayService.DataAccess.Gateways.Configuration;
+using GatewayService.Domain.Interfaces.Services;
 using GatewayService.Web.Dto;
 using GatewayService.Web.Dto.Books;
+using GatewayService.Web.Dto.Converters;
 using GatewayService.Web.Dto.Libraries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -13,10 +15,13 @@ namespace GatewayService.Web.Api.Controllers;
 public class LibraryController : ControllerBase
 {
     private readonly LibrarySystemConfiguration _librarySystemConfiguration;
+    private readonly ILibraryService _libraryService;
 
-    public LibraryController(IOptions<LibrarySystemConfiguration> librarySystemConfiguration)
+    public LibraryController(IOptions<LibrarySystemConfiguration> librarySystemConfiguration,
+        ILibraryService libraryService)
     {
         _librarySystemConfiguration = librarySystemConfiguration.Value;
+        _libraryService = libraryService ?? throw new ArgumentNullException(nameof(libraryService));
     }
 
     [HttpGet]
@@ -26,18 +31,9 @@ public class LibraryController : ControllerBase
         [FromQuery] int size,
         [FromQuery] string city)
     {
-        using var client = new HttpClient();
+        var libraries = await _libraryService.GetLibrariesByCityPagedAsync(page, size, city);
         
-        using var request = new HttpRequestMessage(HttpMethod.Get,
-            $"{_librarySystemConfiguration.IpAddress}/{_librarySystemConfiguration.BaseUrl}" +
-            $"?page={page}&size={size}&city={city}");
-        
-        using var response = await client.SendAsync(request);
-        response.EnsureSuccessStatusCode();
-        var json = await response.Content.ReadAsStringAsync();
-        
-        var libraryPaged = JsonSerializer.Deserialize<LibraryPagedDto>(json);
-        return Ok(libraryPaged);
+        return Ok(libraries.ToDto());
     }
     
     [HttpGet("{libraryUid}/books")]

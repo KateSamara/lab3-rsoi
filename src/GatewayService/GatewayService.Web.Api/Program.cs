@@ -1,9 +1,12 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using GatewayService.Configuration;
+using GatewayService.Application.Services;
+using GatewayService.DataAccess.Gateways;
+using GatewayService.DataAccess.Gateways.Configuration;
+using GatewayService.Domain.Interfaces.Gateways;
+using GatewayService.Domain.Interfaces.Services;
 using GatewayService.Web.Api;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 builder.Services.AddScoped<ValidationFilterAttribute>();
+builder.Services.AddTransient<ILibraryGateway, LibraryGateway>();
+builder.Services.AddTransient<ILibraryService, LibraryService>();
 
 builder.Services.Configure<LibrarySystemConfiguration>(
     builder.Configuration.GetSection("LibrarySystemConfiguration"));
