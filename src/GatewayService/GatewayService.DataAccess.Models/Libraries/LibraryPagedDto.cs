@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace GatewayService.DataAccess.Models;
+namespace GatewayService.DataAccess.Models.Libraries;
 
 public class LibraryPagedDto
 {

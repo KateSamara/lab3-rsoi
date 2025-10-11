@@ -1,12 +1,8 @@
-using System.Text.Json;
-using GatewayService.DataAccess.Gateways.Configuration;
 using GatewayService.Domain.Interfaces.Services;
-using GatewayService.Web.Dto;
 using GatewayService.Web.Dto.Books;
 using GatewayService.Web.Dto.Converters;
 using GatewayService.Web.Dto.Libraries;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace GatewayService.Web.Api.Controllers;
 
@@ -14,14 +10,11 @@ namespace GatewayService.Web.Api.Controllers;
 [Route("/api/v1/libraries")]
 public class LibraryController : ControllerBase
 {
-    private readonly LibrarySystemConfiguration _librarySystemConfiguration;
     private readonly ILibraryService _libraryService;
 
-    public LibraryController(IOptions<LibrarySystemConfiguration> librarySystemConfiguration,
-        ILibraryService libraryService)
+    public LibraryController(ILibraryService libraryService)
     {
-        _librarySystemConfiguration = librarySystemConfiguration.Value;
-        _libraryService = libraryService ?? throw new ArgumentNullException(nameof(libraryService));
+       _libraryService = libraryService ?? throw new ArgumentNullException(nameof(libraryService));
     }
 
     [HttpGet]
@@ -44,18 +37,8 @@ public class LibraryController : ControllerBase
         [FromQuery] int size,
         [FromQuery] bool showAll)
     {
-        using var client = new HttpClient();
+        var books = await _libraryService.GetBooksPagedByLibraryUuid(libraryUid, page, size, showAll);
         
-        using var request = new HttpRequestMessage(HttpMethod.Get,
-            $"{_librarySystemConfiguration.IpAddress}/{_librarySystemConfiguration.BaseUrl}/" +
-            $"{libraryUid}/{_librarySystemConfiguration.GetBooksSuffix}?page={page}&size={size}&showAll={showAll}");
-        
-        using var response = await client.SendAsync(request);
-        response.EnsureSuccessStatusCode();
-        var json = await response.Content.ReadAsStringAsync();
-        
-        var booksPaged = JsonSerializer.Deserialize<BookPagedDto>(json);
-        
-        return Ok(booksPaged);
+        return Ok(books.ToDto());
     }
 }

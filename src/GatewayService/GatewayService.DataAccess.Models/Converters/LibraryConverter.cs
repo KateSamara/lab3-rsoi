@@ -1,3 +1,4 @@
+using GatewayService.DataAccess.Models.Libraries;
 using GatewayService.Domain.Models.Libraries;
 
 namespace GatewayService.DataAccess.Models.Converters;
