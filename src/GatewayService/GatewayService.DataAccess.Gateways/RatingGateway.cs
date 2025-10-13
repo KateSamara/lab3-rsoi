@@ -1,4 +1,5 @@
 using System.Text.Json;
+using GatewayService.DataAccess.Gateways.CircuitBreakers;
 using GatewayService.DataAccess.Gateways.Configuration;
 using GatewayService.DataAccess.Models.Converters;
 using GatewayService.DataAccess.Models.Ratings;
@@ -9,11 +10,26 @@ using Microsoft.Extensions.Options;
 
 namespace GatewayService.DataAccess.Gateways;
 
-public class RatingGateway(IOptions<RatingSystemConfiguration> ratingSystemConfiguration) : IRatingGateway
+public class RatingGateway(IOptions<RatingSystemConfiguration> ratingSystemConfiguration,
+    CircuitBreaker<RatingGateway> circuitBreaker) : IRatingGateway
 {
     private readonly RatingSystemConfiguration _ratingSystemConfiguration = ratingSystemConfiguration.Value ?? throw new ArgumentNullException(nameof(ratingSystemConfiguration));
+    private readonly CircuitBreaker<RatingGateway> _ratingCircuitBreaker = circuitBreaker ?? throw new ArgumentNullException(nameof(circuitBreaker));
 
     public async Task<Rating> GetRatingsByUsernameAsync(string username)
+    {
+        return await _ratingCircuitBreaker.ExecuteAsync(
+            action: async () => await CallGetRatingsByUsernameAsync(username),
+            fallbackAction: () =>
+            {
+                Console.WriteLine("Rating service is unavailable.");
+                throw new RatingGatewayException("Rating service is unavailable.");
+            },
+            checkHealthAction: async () => await IsRatingServiceAvailableAsync()
+        );
+    }
+    
+    private async Task<Rating> CallGetRatingsByUsernameAsync(string username)
     {
         try
         {
@@ -55,6 +71,24 @@ public class RatingGateway(IOptions<RatingSystemConfiguration> ratingSystemConfi
         {
             Console.WriteLine($"Failed to update rating by username = {username}", e);
             throw new RatingGatewayException($"Failed to update rating by username = {username}", e);
+        }
+    }
+    
+    private async Task<bool> IsRatingServiceAvailableAsync()
+    {
+        try
+        {
+            using var client = new HttpClient();
+        
+            using var request = new HttpRequestMessage(HttpMethod.Get,
+                $"{_ratingSystemConfiguration.IpAddress}/{_ratingSystemConfiguration.CheckHealth}");
+        
+            using var response = await client.SendAsync(request);
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception)
+        {
+            return false;
         }
     }
 }

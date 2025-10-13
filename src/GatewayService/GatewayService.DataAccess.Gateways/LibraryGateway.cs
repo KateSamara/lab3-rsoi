@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using GatewayService.DataAccess.Gateways.CircuitBreakers;
 using GatewayService.DataAccess.Gateways.Configuration;
 using GatewayService.DataAccess.Models;
 using GatewayService.DataAccess.Models.Books;
@@ -12,12 +13,27 @@ using Microsoft.Extensions.Options;
 
 namespace GatewayService.DataAccess.Gateways;
 
-public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemConfiguration) : ILibraryGateway
+public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemConfiguration,
+    CircuitBreaker<LibraryGateway> libraryCircuitBreaker) : ILibraryGateway
 {
     private readonly LibrarySystemConfiguration _librarySystemConfiguration = 
         librarySystemConfiguration.Value ?? throw new ArgumentNullException(nameof(librarySystemConfiguration));
+    private readonly CircuitBreaker<LibraryGateway> _libraryCircuitBreaker = libraryCircuitBreaker ?? throw new ArgumentNullException(nameof(libraryCircuitBreaker));
     
     public async Task<LibraryPaged> GetLibrariesByCityPagedAsync(int page, int size, string city)
+    {
+        return await _libraryCircuitBreaker.ExecuteAsync(
+            action: async () => await CallGetLibrariesByCityPagedAsync(page, size, city),
+            fallbackAction: () =>
+            {
+                Console.WriteLine("Library service is unavailable.");
+                throw new LibraryGatewayException("Library service is unavailable.");
+            },
+            checkHealthAction: async () => await IsLibraryServiceAvailableAsync()
+        );
+    }
+    
+    private async Task<LibraryPaged> CallGetLibrariesByCityPagedAsync(int page, int size, string city)
     {
         try
         {
@@ -43,6 +59,19 @@ public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemCo
     }
 
     public async Task<BookPaged> GetBooksPagedByLibraryUuid(Guid libraryUid, int page, int size, bool showAll)
+    {
+        return await _libraryCircuitBreaker.ExecuteAsync(
+            action: async () => await CallGetBooksPagedByLibraryUuid(libraryUid, page, size, showAll),
+            fallbackAction: () =>
+            {
+                Console.WriteLine("Library service is unavailable.");
+                throw new LibraryGatewayException("Library service is unavailable.");
+            },
+            checkHealthAction: async () => await IsLibraryServiceAvailableAsync()
+        );
+    }
+
+    private async Task<BookPaged> CallGetBooksPagedByLibraryUuid(Guid libraryUid, int page, int size, bool showAll)
     {
         try
         {
@@ -95,6 +124,25 @@ public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemCo
 
     public async Task<List<Book>> GetBooksByIdsAsync(List<Guid> bookUuids)
     {
+        return await _libraryCircuitBreaker.ExecuteAsync(
+            action: async () => await CallGetBooksByIdsAsync(bookUuids),
+            fallbackAction: () => Task.FromResult(
+                bookUuids.Select(bookUuid => new Book
+                {
+                    BookUuid = bookUuid,
+                    Name = string.Empty,
+                    Author = null,
+                    AvailableCount = -1,
+                    Condition = string.Empty,
+                    Genre = null,
+                }).ToList()
+            ),
+            checkHealthAction: async () => await IsLibraryServiceAvailableAsync()
+        );
+    }
+
+    private async Task<List<Book>> CallGetBooksByIdsAsync(List<Guid> bookUuids)
+    {
         try
         {
             using var client = new HttpClient();
@@ -117,6 +165,23 @@ public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemCo
     }
 
     public async Task<List<Library>> GetLibrariesByIdsAsync(List<Guid> libraryUuids)
+    {
+        return await _libraryCircuitBreaker.ExecuteAsync(
+            action: async () => await CallGetLibrariesByIdsAsync(libraryUuids),
+            fallbackAction: () => Task.FromResult(
+                libraryUuids.Select(libraryUuid => new Library
+                {
+                    LibraryUuid = libraryUuid,
+                    Name = string.Empty,
+                    Address = string.Empty,
+                    City = string.Empty
+                }).ToList()
+            ),
+            checkHealthAction: async () => await IsLibraryServiceAvailableAsync()
+        );
+    }
+
+    private async Task<List<Library>> CallGetLibrariesByIdsAsync(List<Guid> libraryUuids)
     {
         try
         {
@@ -147,5 +212,23 @@ public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemCo
             url += $"ids={id}&";
         }
         return url;
+    }
+    
+    private async Task<bool> IsLibraryServiceAvailableAsync()
+    {
+        try
+        {
+            using var client = new HttpClient();
+        
+            using var request = new HttpRequestMessage(HttpMethod.Get,
+                $"{_librarySystemConfiguration.IpAddress}/{_librarySystemConfiguration.CheckHealth}");
+        
+            using var response = await client.SendAsync(request);
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 }

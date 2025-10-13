@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using GatewayService.Application.Services;
 using GatewayService.DataAccess.Gateways;
+using GatewayService.DataAccess.Gateways.CircuitBreakers;
 using GatewayService.DataAccess.Gateways.Configuration;
 using GatewayService.Domain.Interfaces.Gateways;
 using GatewayService.Domain.Interfaces.Services;
@@ -25,6 +26,8 @@ builder.Services.AddTransient<ILibraryService, LibraryService>();
 builder.Services.AddTransient<IRatingService, RatingService>();
 builder.Services.AddTransient<IReservationService, ReservationService>();
 
+builder.Services.AddSingleton(typeof(CircuitBreaker<>));
+
 builder.Services.Configure<LibrarySystemConfiguration>(
     builder.Configuration.GetSection("LibrarySystemConfiguration"));
 
@@ -33,6 +36,9 @@ builder.Services.Configure<ReservationSystemConfiguration>(
 
 builder.Services.Configure<RatingSystemConfiguration>(
     builder.Configuration.GetSection("RatingSystemConfiguration"));
+
+builder.Services.Configure<CircuitBreakerConfiguration>(
+    builder.Configuration.GetSection("CircuitBreakerConfiguration"));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
