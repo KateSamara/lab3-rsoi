@@ -11,4 +11,6 @@ public interface IReservationGateway
     public Task<List<ReservationShort>> GetReservationsByUsernameAsync(string username);
 
     public Task<ReservationShort?> DeleteReservationAsync(Guid reservationId, DateOnly date);
+    
+    public Task DeleteReservationAsync(Guid reservationId);
 }

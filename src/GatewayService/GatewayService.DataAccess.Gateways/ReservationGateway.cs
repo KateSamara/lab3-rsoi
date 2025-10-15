@@ -135,6 +135,25 @@ public class ReservationGateway(IOptions<ReservationSystemConfiguration> reserva
             throw new ReservationGatewayException($"Failed to delete reservation with id = {reservationId}", e);
         }
     }
+
+    public async Task DeleteReservationAsync(Guid reservationId)
+    {
+        try
+        {
+            using var client = new HttpClient();
+            
+            using var request = new HttpRequestMessage(HttpMethod.Delete,
+                $"{_reservationSystemConfiguration.IpAddress}/{_reservationSystemConfiguration.BaseUrl}/{reservationId}");
+
+            using var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Failed to rollback reservation with id = {reservationId}", e);
+            throw new ReservationGatewayException($"Failed to rollback reservation with id = {reservationId}", e);
+        }
+    }
     
     private async Task<bool> IsReservationServiceAvailableAsync()
     {

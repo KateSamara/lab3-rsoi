@@ -68,7 +68,20 @@ public class ReservationService(IReservationRepository reservationRepository) : 
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw;
+            throw new ReservationServiceException($"Error while unable reservation by uid = {reservationUuid}.", e);
+        }
+    }
+
+    public async Task DeleteReservationAsync(Guid reservationUuid)
+    {
+        try
+        {
+            await _reservationRepository.DeleteReservationAsync(reservationUuid);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw new ReservationServiceException($"Error while deleting reservation by uid = {reservationUuid}.", e);
         }
     }
 }

@@ -117,8 +117,7 @@ public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemCo
         catch (Exception e)
         {
             Console.WriteLine($"Failed to update books count with book uid = {bookUuid} and library uid = {libraryUuid}", e);
-            throw new LibraryGatewayException(
-                $"Failed to update books count with book uid = {bookUuid} and library uid = {libraryUuid}", e);
+            throw new LibraryGatewayException($"Failed to update books count with book uid = {bookUuid} and library uid = {libraryUuid}", e);
         }
     }
 

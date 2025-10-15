@@ -61,4 +61,14 @@ public class ReservationController : ControllerBase
         
         return Ok(reservation.ToDto());
     }
+    
+    [HttpDelete("{uuid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeleteReservationAsync([FromRoute] Guid uuid)
+    {
+        await _reservationService.DeleteReservationAsync(uuid);
+        
+        return NoContent();
+    }
 }

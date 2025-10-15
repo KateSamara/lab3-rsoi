@@ -1,3 +1,4 @@
+using GatewayService.Domain.Exceptions.Gateways;
 using GatewayService.Domain.Exceptions.Services;
 using GatewayService.Domain.Interfaces.Gateways;
 using GatewayService.Domain.Interfaces.Services;
@@ -27,12 +28,22 @@ public class ReservationService(IReservationGateway reservationGateway,
 
             if (currentReservationsCount >= rating.Stars)
                 return null;
-            
+
             var newReservation = await _reservationGateway.AddReservationAsync(username, reservationCreate);
 
-            var libraryBook = await _libraryGateway.UpdateAvailableBooksCount(reservationCreate.BookUuid,
-                reservationCreate.LibraryUuid, false);
+            LibraryBook libraryBook;
             
+            try
+            {
+                libraryBook = await _libraryGateway.UpdateAvailableBooksCount(reservationCreate.BookUuid,
+                    reservationCreate.LibraryUuid, false);
+            }
+            catch (Exception e)
+            {
+                await _reservationGateway.DeleteReservationAsync(newReservation.ReservationUuid);
+                throw new ReservationServiceException("Library Service not available.", e);
+            }
+
             return CreateReservation(newReservation, libraryBook.Book, libraryBook.Library, rating);
         }
         catch (Exception e)

@@ -11,4 +11,6 @@ public interface IReservationService
     public Task<Reservation> AddReservationAsync(ReservationCreate reservation);
     
     public Task<Reservation?> DeleteReservationAsync(Guid reservationUuid, DateOnly returnDate);
+    
+    public Task DeleteReservationAsync(Guid reservationUuid);
 }

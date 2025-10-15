@@ -108,4 +108,23 @@ public class ReservationRepository(ReservationSystemContext reservationSystemCon
             throw new ReservationRepositoryException($"Error while updating reservation by uid {reservationUuid}.", e);
         }
     }
+
+    public async Task DeleteReservationAsync(Guid reservationUuid)
+    {
+        try
+        {
+            var reservation = await _reservationSystemContext.Reservations
+                .Where(r => r.ReservationUuid == reservationUuid)
+                .FirstAsync();
+
+            _reservationSystemContext.Reservations.Remove(reservation);
+            
+            await _reservationSystemContext.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw new ReservationRepositoryException($"Error while deleting reservation by uid {reservationUuid}.", e);
+        }
+    }
 }

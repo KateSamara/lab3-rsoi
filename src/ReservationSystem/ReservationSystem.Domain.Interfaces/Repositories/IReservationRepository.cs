@@ -13,4 +13,6 @@ public interface IReservationRepository
     public Task<Reservation?> FindReservationByUuidAsync(Guid reservationUuid);
     
     public Task<Reservation> UpdateReservationStatusAsync(Guid reservationUuid, ReservationStatus status);
+    
+    public Task DeleteReservationAsync(Guid reservationUuid);
 }
