@@ -39,7 +39,7 @@ public class ReservationGateway(IOptions<ReservationSystemConfiguration> reserva
         catch (Exception e)
         {
             Console.WriteLine($"Failed to get reservations count for user {username}", e);
-            throw new ReservationGatewayException($"Failed to get reservations count for user {username}", e);
+            throw new ReservationServiceNotAvailableGatewayException($"Failed to get reservations count for user {username}", e);
         }
     }
 
@@ -67,7 +67,7 @@ public class ReservationGateway(IOptions<ReservationSystemConfiguration> reserva
         catch (Exception e)
         {
             Console.WriteLine($"Failed to add reservation for {username}", e);
-            throw new ReservationGatewayException($"Failed to add reservation for {username}", e);
+            throw new ReservationServiceNotAvailableGatewayException($"Failed to add reservation for {username}", e);
         }
     }
 
@@ -78,7 +78,7 @@ public class ReservationGateway(IOptions<ReservationSystemConfiguration> reserva
             fallbackAction: () =>
             {
                 Console.WriteLine("Reservation service is unavailable.");
-                throw new ReservationGatewayException("Reservation service is unavailable.");
+                throw new ReservationServiceNotAvailableGatewayException("Reservation service is unavailable.");
             },
             checkHealthAction: async () => await IsReservationServiceAvailableAsync()
         );
@@ -105,7 +105,7 @@ public class ReservationGateway(IOptions<ReservationSystemConfiguration> reserva
         catch (Exception e)
         {
             Console.WriteLine($"Failed to get reservations for {username}", e);
-            throw new ReservationGatewayException($"Failed to get reservations for {username}", e);
+            throw new ReservationServiceNotAvailableGatewayException($"Failed to get reservations for {username}", e);
         }
     }
 
@@ -132,7 +132,7 @@ public class ReservationGateway(IOptions<ReservationSystemConfiguration> reserva
         catch (Exception e)
         {
             Console.WriteLine($"Failed to delete reservation with id = {reservationId}", e);
-            throw new ReservationGatewayException($"Failed to delete reservation with id = {reservationId}", e);
+            throw new ReservationServiceNotAvailableGatewayException($"Failed to delete reservation with id = {reservationId}", e);
         }
     }
 
@@ -151,7 +151,7 @@ public class ReservationGateway(IOptions<ReservationSystemConfiguration> reserva
         catch (Exception e)
         {
             Console.WriteLine($"Failed to rollback reservation with id = {reservationId}", e);
-            throw new ReservationGatewayException($"Failed to rollback reservation with id = {reservationId}", e);
+            throw new ReservationServiceNotAvailableGatewayException($"Failed to rollback reservation with id = {reservationId}", e);
         }
     }
     

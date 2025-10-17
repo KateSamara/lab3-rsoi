@@ -15,6 +15,11 @@ public class RatingService(IRatingGateway ratingGateway) : IRatingService
         {
             return await _ratingGateway.GetRatingsByUsernameAsync(username);
         }
+        catch (RatingServiceNotAvailableServiceException)
+        {
+            Console.WriteLine("Rating service not available.");
+            throw new RatingServiceNotAvailableServiceException("Rating service not available.");
+        }
         catch (Exception e)
         {
             Console.WriteLine($"Failed to get rating by username = {username}", e);

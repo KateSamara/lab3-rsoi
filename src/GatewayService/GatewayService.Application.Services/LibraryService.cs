@@ -1,4 +1,5 @@
-﻿using GatewayService.Domain.Exceptions.Services;
+﻿using GatewayService.Domain.Exceptions.Gateways;
+using GatewayService.Domain.Exceptions.Services;
 using GatewayService.Domain.Interfaces.Gateways;
 using GatewayService.Domain.Interfaces.Services;
 using GatewayService.Domain.Models.Books;
@@ -16,6 +17,11 @@ public class LibraryService(ILibraryGateway libraryGateway) : ILibraryService
         {
             return await _libraryGateway.GetLibrariesByCityPagedAsync(page, size, city);
         }
+        catch (LibraryServiceNotAvailableGatewayException)
+        {
+            Console.WriteLine("Library service not available.");
+            throw new LibraryServiceNotAvailableServiceException("Library service not available.");
+        }
         catch (Exception e)
         {
             Console.WriteLine($"Failed to get libraries by city = {city}", e);
@@ -28,6 +34,11 @@ public class LibraryService(ILibraryGateway libraryGateway) : ILibraryService
         try
         {
             return await _libraryGateway.GetBooksPagedByLibraryUuid(libraryUid, page, size, showAll);
+        }
+        catch (LibraryServiceNotAvailableGatewayException)
+        {
+            Console.WriteLine("Library service not available.");
+            throw new LibraryServiceNotAvailableServiceException("Library service not available.");
         }
         catch (Exception e)
         {

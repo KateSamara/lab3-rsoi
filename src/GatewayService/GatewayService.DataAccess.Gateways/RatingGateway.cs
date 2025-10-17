@@ -23,7 +23,7 @@ public class RatingGateway(IOptions<RatingSystemConfiguration> ratingSystemConfi
             fallbackAction: () =>
             {
                 Console.WriteLine("Rating service is unavailable.");
-                throw new RatingGatewayException("Rating service is unavailable.");
+                throw new RatingServiceNotAvailableGatewayException("Rating service is unavailable.");
             },
             checkHealthAction: async () => await IsRatingServiceAvailableAsync()
         );
@@ -50,7 +50,7 @@ public class RatingGateway(IOptions<RatingSystemConfiguration> ratingSystemConfi
         catch (Exception e)
         {
             Console.WriteLine($"Failed to get rating by username = {username}", e);
-            throw new RatingGatewayException($"Failed to get rating by username = {username}", e);
+            throw new RatingServiceNotAvailableGatewayException($"Failed to get rating by username = {username}", e);
         }
     }
 
@@ -70,7 +70,7 @@ public class RatingGateway(IOptions<RatingSystemConfiguration> ratingSystemConfi
         catch (Exception e)
         {
             Console.WriteLine($"Failed to update rating by username = {username}", e);
-            throw new RatingGatewayException($"Failed to update rating by username = {username}", e);
+            throw new RatingServiceNotAvailableGatewayException($"Failed to update rating by username = {username}", e);
         }
     }
     

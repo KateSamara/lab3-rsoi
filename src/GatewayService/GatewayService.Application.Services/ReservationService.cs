@@ -38,19 +38,33 @@ public class ReservationService(IReservationGateway reservationGateway,
             var newReservation = await _reservationGateway.AddReservationAsync(username, reservationCreate);
 
             LibraryBook libraryBook;
-            
+
             try
             {
                 libraryBook = await _libraryGateway.UpdateAvailableBooksCount(reservationCreate.BookUuid,
                     reservationCreate.LibraryUuid, false);
             }
-            catch (Exception e)
+            catch (LibraryServiceNotAvailableGatewayException e)
             {
                 await _reservationGateway.DeleteReservationAsync(newReservation.ReservationUuid);
-                throw new ReservationServiceException("Library Service not available.", e);
+                throw new LibraryServiceNotAvailableServiceException("Library Service not available.", e);
             }
 
             return CreateReservation(newReservation, libraryBook.Book, libraryBook.Library, rating);
+        }
+        catch (ReservationServiceNotAvailableServiceException)
+        {
+            Console.WriteLine("Reservation service not available.");
+            throw new ReservationServiceNotAvailableServiceException("Reservation service not available.");
+        }
+        catch (RatingServiceNotAvailableServiceException)
+        {
+            Console.WriteLine("Rating service not available.");
+            throw new RatingServiceNotAvailableServiceException("Rating service not available.");
+        }
+        catch (LibraryServiceNotAvailableServiceException)
+        {
+            throw;
         }
         catch (Exception e)
         {
@@ -78,6 +92,16 @@ public class ReservationService(IReservationGateway reservationGateway,
             
             return reservationsFull;
         }
+        catch (ReservationServiceNotAvailableServiceException)
+        {
+            Console.WriteLine("Reservation service not available.");
+            throw new ReservationServiceNotAvailableServiceException("Reservation service not available.");
+        }
+        catch (LibraryServiceNotAvailableServiceException)
+        {
+            Console.WriteLine("Library service not available.");
+            throw new LibraryServiceNotAvailableServiceException("Library service not available.");
+        }
         catch (Exception e)
         {
             Console.WriteLine($"Failed to get reservations for {username}", e);
@@ -101,7 +125,7 @@ public class ReservationService(IReservationGateway reservationGateway,
                     await _libraryGateway.UpdateAvailableBooksCount(reservation.BookUuid, reservation.LibraryUuid,
                         true);
             }
-            catch (Exception)
+            catch (LibraryServiceNotAvailableGatewayException)
             {
                 await _libraryQueue.EnqueueAsync(new LibraryTask
                 {
@@ -117,7 +141,7 @@ public class ReservationService(IReservationGateway reservationGateway,
             {
                 await UpdateRatingAsync(username, reservation.Status, libraryBook.Book.Condition, reservationDelete.Condition);
             }
-            catch (Exception e)
+            catch (RatingServiceNotAvailableServiceException)
             {
                 await _ratingTask.EnqueueAsync(new RatingTask
                 {
@@ -130,6 +154,11 @@ public class ReservationService(IReservationGateway reservationGateway,
             }
             
             return true;
+        }
+        catch (ReservationServiceNotAvailableServiceException)
+        {
+            Console.WriteLine("Reservation service not available.");
+            throw new ReservationServiceNotAvailableServiceException("Reservation service not available.");
         }
         catch (Exception e)
         {
@@ -157,10 +186,15 @@ public class ReservationService(IReservationGateway reservationGateway,
 
             await _ratingGateway.UpdateRatingAsync(username, starDifference);
         }
+        catch (RatingServiceNotAvailableGatewayException e)
+        {
+            Console.WriteLine("Rating service not available.");
+            throw new RatingServiceNotAvailableServiceException("Rating service not available.");
+        }
         catch (Exception e)
         {
             Console.WriteLine($"Failed to update rating for {username}", e);
-            throw new ReservationServiceException($"Failed to update rating for {username}", e);
+            throw new RatingServiceException($"Failed to update rating for {username}", e);
         }
     }
 

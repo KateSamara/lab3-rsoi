@@ -27,7 +27,7 @@ public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemCo
             fallbackAction: () =>
             {
                 Console.WriteLine("Library service is unavailable.");
-                throw new LibraryGatewayException("Library service is unavailable.");
+                throw new LibraryServiceNotAvailableGatewayException("Library service is unavailable.");
             },
             checkHealthAction: async () => await IsLibraryServiceAvailableAsync()
         );
@@ -54,7 +54,7 @@ public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemCo
         catch (Exception e)
         {
             Console.WriteLine($"Failed to get libraries by city = {city}", e);
-            throw new LibraryGatewayException($"Failed to get libraries by city = {city}", e);
+            throw new LibraryServiceNotAvailableGatewayException($"Failed to get libraries by city = {city}", e);
         }
     }
 
@@ -65,7 +65,7 @@ public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemCo
             fallbackAction: () =>
             {
                 Console.WriteLine("Library service is unavailable.");
-                throw new LibraryGatewayException("Library service is unavailable.");
+                throw new LibraryServiceNotAvailableGatewayException("Library service is unavailable.");
             },
             checkHealthAction: async () => await IsLibraryServiceAvailableAsync()
         );
@@ -92,7 +92,7 @@ public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemCo
         catch (Exception e)
         {
             Console.WriteLine($"Failed to get books by library uid = {libraryUid}", e);
-            throw new LibraryGatewayException($"Failed to get books by library uid = {libraryUid}", e);
+            throw new LibraryServiceNotAvailableGatewayException($"Failed to get books by library uid = {libraryUid}", e);
         }
     }
 
@@ -117,7 +117,7 @@ public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemCo
         catch (Exception e)
         {
             Console.WriteLine($"Failed to update books count with book uid = {bookUuid} and library uid = {libraryUuid}", e);
-            throw new LibraryGatewayException($"Failed to update books count with book uid = {bookUuid} and library uid = {libraryUuid}", e);
+            throw new LibraryServiceNotAvailableGatewayException($"Failed to update books count with book uid = {bookUuid} and library uid = {libraryUuid}", e);
         }
     }
 
@@ -159,7 +159,7 @@ public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemCo
         catch (Exception e)
         {
             Console.WriteLine($"Failed to get books by ids = {bookUuids}", e);
-            throw new LibraryGatewayException($"Failed to get books by ids = {bookUuids}", e);
+            throw new LibraryServiceNotAvailableGatewayException($"Failed to get books by ids = {bookUuids}", e);
         }
     }
 
@@ -199,7 +199,7 @@ public class LibraryGateway(IOptions<LibrarySystemConfiguration> librarySystemCo
         catch (Exception e)
         {
             Console.WriteLine($"Failed to get libraries by ids = {libraryUuids}", e);
-            throw new LibraryGatewayException($"Failed to get libraries by ids = {libraryUuids}", e);
+            throw new LibraryServiceNotAvailableGatewayException($"Failed to get libraries by ids = {libraryUuids}", e);
         }
     }
     
