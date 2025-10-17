@@ -15,28 +15,28 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
             Console.WriteLine("Library Service unavailable");
             context.Response.StatusCode = 503;
             context.Response.ContentType = "application/json";
-            await context.Response.WriteAsJsonAsync(new { error = "Library Service unavailable" });
+            await context.Response.WriteAsJsonAsync(new { message = "Library Service unavailable" });
         }
         catch (ReservationServiceNotAvailableServiceException)
         {
             Console.WriteLine("Reservation Service unavailable");
             context.Response.StatusCode = 503;
             context.Response.ContentType = "application/json";
-            await context.Response.WriteAsJsonAsync(new { error = "Reservation Service unavailable" });
+            await context.Response.WriteAsJsonAsync(new { message = "Reservation Service unavailable" });
         }
         catch (RatingServiceNotAvailableServiceException)
         {
             Console.WriteLine("Bonus Service unavailable");
             context.Response.StatusCode = 503;
             context.Response.ContentType = "application/json";
-            await context.Response.WriteAsJsonAsync(new { error = "Bonus Service unavailable" });
+            await context.Response.WriteAsJsonAsync(new { message = "Bonus Service unavailable" });
         }
         catch (Exception e)
         {
             Console.WriteLine("Unhandled Exception", e);
             context.Response.StatusCode = 500;
             context.Response.ContentType = "application/json";
-            await context.Response.WriteAsJsonAsync(new { error = "Unhandled Exception" });
+            await context.Response.WriteAsJsonAsync(new { message = "Unhandled Exception" });
         }
     }
 }
