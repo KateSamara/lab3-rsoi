@@ -52,12 +52,12 @@ public class ReservationService(IReservationGateway reservationGateway,
 
             return CreateReservation(newReservation, libraryBook.Book, libraryBook.Library, rating);
         }
-        catch (ReservationServiceNotAvailableServiceException)
+        catch (ReservationServiceNotAvailableGatewayException)
         {
             Console.WriteLine("Reservation service not available.");
             throw new ReservationServiceNotAvailableServiceException("Reservation service not available.");
         }
-        catch (RatingServiceNotAvailableServiceException)
+        catch (RatingServiceNotAvailableGatewayException)
         {
             Console.WriteLine("Rating service not available.");
             throw new RatingServiceNotAvailableServiceException("Rating service not available.");
