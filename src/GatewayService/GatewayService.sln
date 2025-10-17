@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GatewayService.DataAccess.G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GatewayService.DataAccess.Models", "GatewayService.DataAccess.Models\GatewayService.DataAccess.Models.csproj", "{0C793126-3F7F-415A-AE84-4F361C96E6C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GatewayService.Application.Helpers", "GatewayService.Application.Helpers\GatewayService.Application.Helpers.csproj", "{7B6995CD-4A7F-4084-A8B9-4D32E624F0AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{0C793126-3F7F-415A-AE84-4F361C96E6C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C793126-3F7F-415A-AE84-4F361C96E6C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C793126-3F7F-415A-AE84-4F361C96E6C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B6995CD-4A7F-4084-A8B9-4D32E624F0AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B6995CD-4A7F-4084-A8B9-4D32E624F0AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B6995CD-4A7F-4084-A8B9-4D32E624F0AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B6995CD-4A7F-4084-A8B9-4D32E624F0AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B32B300A-8C33-41EF-BA65-E464623A0F6F} = {8C0E6BBA-C4C0-4E94-96F6-F7C6B2018B3E}
@@ -72,5 +78,6 @@ Global
 		{80FD3EBB-CE6E-4DCB-871D-BC75C7519991} = {5C218D2D-292D-4DD2-8485-8F940096799A}
 		{DB2BB98B-D1BF-4772-B29C-916DFE6CBB80} = {C51DFFF8-8C96-4F96-B785-1DBBBC1A9842}
 		{0C793126-3F7F-415A-AE84-4F361C96E6C4} = {C51DFFF8-8C96-4F96-B785-1DBBBC1A9842}
+		{7B6995CD-4A7F-4084-A8B9-4D32E624F0AD} = {5C218D2D-292D-4DD2-8485-8F940096799A}
 	EndGlobalSection
 EndGlobal

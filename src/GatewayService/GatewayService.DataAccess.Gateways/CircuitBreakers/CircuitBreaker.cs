@@ -40,7 +40,7 @@ public class CircuitBreaker<TResult>(IOptions<CircuitBreakerConfiguration> circu
             {
                 _failureCount++;
                 
-                if (_failureCount >= _failureThreshold || _status == CircuitBreakerStatus.HalfOpen)
+                if (_failureCount > _failureThreshold || _status == CircuitBreakerStatus.HalfOpen)
                 {
                     _status = CircuitBreakerStatus.Open;
                     shouldOpenCircuit = true;

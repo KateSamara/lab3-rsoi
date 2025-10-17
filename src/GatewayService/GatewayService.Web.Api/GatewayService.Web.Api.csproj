@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\GatewayService.Application.Helpers\GatewayService.Application.Helpers.csproj" />
       <ProjectReference Include="..\GatewayService.Application.Services\GatewayService.Application.Services.csproj" />
       <ProjectReference Include="..\GatewayService.DataAccess.Gateways\GatewayService.DataAccess.Gateways.csproj" />
       <ProjectReference Include="..\GatewayService.Domain.Models\GatewayService.Domain.Models.csproj" />
