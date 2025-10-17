@@ -92,12 +92,12 @@ public class ReservationService(IReservationGateway reservationGateway,
             
             return reservationsFull;
         }
-        catch (ReservationServiceNotAvailableServiceException)
+        catch (ReservationServiceNotAvailableGatewayException)
         {
             Console.WriteLine("Reservation service not available.");
             throw new ReservationServiceNotAvailableServiceException("Reservation service not available.");
         }
-        catch (LibraryServiceNotAvailableServiceException)
+        catch (LibraryServiceNotAvailableGatewayException)
         {
             Console.WriteLine("Library service not available.");
             throw new LibraryServiceNotAvailableServiceException("Library service not available.");
@@ -155,7 +155,7 @@ public class ReservationService(IReservationGateway reservationGateway,
             
             return true;
         }
-        catch (ReservationServiceNotAvailableServiceException)
+        catch (ReservationServiceNotAvailableGatewayException)
         {
             Console.WriteLine("Reservation service not available.");
             throw new ReservationServiceNotAvailableServiceException("Reservation service not available.");

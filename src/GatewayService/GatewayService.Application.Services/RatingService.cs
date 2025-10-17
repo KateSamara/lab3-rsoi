@@ -1,3 +1,4 @@
+using GatewayService.Domain.Exceptions.Gateways;
 using GatewayService.Domain.Exceptions.Services;
 using GatewayService.Domain.Interfaces.Gateways;
 using GatewayService.Domain.Interfaces.Services;
@@ -15,7 +16,7 @@ public class RatingService(IRatingGateway ratingGateway) : IRatingService
         {
             return await _ratingGateway.GetRatingsByUsernameAsync(username);
         }
-        catch (RatingServiceNotAvailableServiceException)
+        catch (RatingServiceNotAvailableGatewayException)
         {
             Console.WriteLine("Rating service not available.");
             throw new RatingServiceNotAvailableServiceException("Rating service not available.");
