@@ -9,6 +9,7 @@ using GatewayService.DataAccess.Gateways.Configuration;
 using GatewayService.Domain.Interfaces.Gateways;
 using GatewayService.Domain.Interfaces.Services;
 using GatewayService.Web.Api;
+using GatewayService.Web.Api.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -61,6 +62,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
